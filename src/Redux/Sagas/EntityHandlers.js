@@ -1,61 +1,75 @@
 import { call, put as dispatch } from "redux-saga/effects";
-import Api from "Services/Api";
 import { Creators } from "Redux/Actions/Entity";
+import {StoreIds} from "Services/Config";
+import Api from "Services/Api";
 
-const { postSuccess, postFailure, getSuccess, getFailure, putSuccess, putFailure } = Creators;
+const {
+  postSuccess,
+  postFailure,
+  getSuccess,
+  getFailure,
+  putSuccess,
+  putFailure
+} = Creators;
+
+const postStoreId = StoreIds.post;
+const commentStoreId = StoreIds.comment;
 
 export default {
   get: {
-    *post(id) {
+    *[postStoreId](id) {
       const response = yield call(Api.posts.get, id);
       if (response.ok) {
-        yield dispatch(getSuccess("post", response.data));
+        yield dispatch(getSuccess(postStoreId, response.data));
       } else {
-        yield dispatch(getFailure("post", response.originalError.message));
+        yield dispatch(
+          getFailure(postStoreId, response.originalError.message)
+        );
       }
     },
-    *comment(id) {
+    *[commentStoreId](id) {
+      const storeId = commentStoreId;
       const response = yield call(Api.comments.get, id);
       if (response.ok) {
-        yield dispatch(getSuccess("comment", response.data));
+        yield dispatch(getSuccess(storeId, response.data));
       } else {
-        yield dispatch(getFailure("comment", response.originalError.message));
+        yield dispatch(getFailure(storeId, response.originalError.message));
       }
-    },
+    }
   },
   post: {
-    *post(item) {
+    *[postStoreId](item) {
       const response = yield call(Api.posts.create, item);
       if (response.ok) {
-        yield dispatch(postSuccess("post"));
+        yield dispatch(postSuccess(postStoreId));
       } else {
-        yield dispatch(postFailure("post", response.originalError.message));
+        yield dispatch(postFailure(postStoreId, response.originalError.message));
       }
     },
-    *comment(item) {
+    *[commentStoreId](item) {
       const response = yield call(Api.comments.create, item);
       if (response.ok) {
-        yield dispatch(postSuccess("comment"));
+        yield dispatch(postSuccess(commentStoreId));
       } else {
-        yield dispatch(postFailure("comment", response.originalError.message));
+        yield dispatch(postFailure(commentStoreId, response.originalError.message));
       }
     }
   },
   put: {
-    *post(item) {
+    *[postStoreId](item) {
       const response = yield call(Api.posts.update, item);
       if (response.ok) {
-        yield dispatch(putSuccess("post"));
+        yield dispatch(putSuccess(postStoreId));
       } else {
-        yield dispatch(putFailure("post", response.originalError.message));
+        yield dispatch(putFailure(postStoreId, response.originalError.message));
       }
     },
-    *comment(item) {
+    *[commentStoreId](item) {
       const response = yield call(Api.comments.update, item);
       if (response.ok) {
-        yield dispatch(putSuccess("comment"));
+        yield dispatch(putSuccess(commentStoreId));
       } else {
-        yield dispatch(putFailure("comment", response.originalError.message));
+        yield dispatch(putFailure(commentStoreId, response.originalError.message));
       }
     }
   }
