@@ -3,7 +3,7 @@ import { createReducer, createActions } from "reduxsauce";
 import { fromJS } from 'immutable';
 
 const INITIAL_STATE = fromJS({});
-const SINGLE_STATE = { loading: false, id:null, item: {}, error: null };
+const SINGLE_STATE = { loading: false, id: null, item: {}, error: null };
 
 export const { Types, Creators } = createActions({
   register: ["storeId"],
