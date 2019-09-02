@@ -1,12 +1,11 @@
 import React from "react";
-import { observer } from "mobx-react";
 import { observable, toJS } from "mobx";
 
 import FormState from "./FormState";
 
-@observer
 /* eslint-disable , react/no-direct-mutation-state */
 export default class Form extends React.Component {
+
   state = {};
 
   constructor(props) {
@@ -18,6 +17,9 @@ export default class Form extends React.Component {
       setForm(data) {
         this.form = new FormState({ ...data });
       },
+      getForm() {
+        return this.form;
+      },
     });
   }
 
@@ -26,11 +28,28 @@ export default class Form extends React.Component {
   };
 
   handleChange = (name, value) => {
+    const error = this.validateField(name, value);
     const form = new FormState({ ...toJS(this.state.form) });
     form[name].value = value;
+    form[name].isValid= error? false : true;
+    form[name].error= error;
     this.state.setForm(form);
   };
 
+  validateField = (name, value) => {
+    const form = new FormState({ ...toJS(this.state.form) });
+    const field = form[name];
+
+    let errorMessage;
+    field.validators.some((validator) => {
+      errorMessage = validator(value);
+      if (errorMessage) {
+        return true;
+      }
+    });
+    return errorMessage;    
+
+  }
   handleSubmit = (action) => {
     const validationState = this.validateForm();
     this.state.submitted = true;
@@ -50,7 +69,7 @@ export default class Form extends React.Component {
   get formValues() {
     const values = {};
     const { form } = this.state;
-    for (const key in form) {
+    for (var key in form) {
       values[key] = form[key].value;
     }
     return values;
@@ -59,7 +78,7 @@ export default class Form extends React.Component {
   get formFields() {
     const fields = {};
     const form = toJS(this.state.form);
-    for (const key in form) {
+    for (var key in form) {
       fields[key] = form[key];
     }
     return fields;
@@ -76,7 +95,7 @@ export default class Form extends React.Component {
   validateForm() {
     const form = new FormState({ ...toJS(this.state.form) });
     let isFormValid = true;
-    for (const key in form) {
+    for (var key in form) {
       const field = form[key];
       field.validators.some((validator) => {
         const errorMessage = validator(field.value);
