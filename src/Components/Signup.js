@@ -10,7 +10,7 @@ import Form from "Components/Form/Builder";
 
 import asEntity from "Hocs/asEntity";
 
-import {isRequied, minLength, maxLength, checkPassword, compare} from "Services/Validators";
+import {isRequied, minLength, maxLength, checkPassword, matches} from "Services/Validators";
 
 const SignupForm = observer(class extends Form {
 
@@ -30,10 +30,10 @@ const SignupForm = observer(class extends Form {
         ]
       },
       repeatPassword:{
-        compateTo:"password",
+        matchWith:"password",
         validators:[
           isRequied, 
-          compare
+          matches
         ]
       },
       bio:{

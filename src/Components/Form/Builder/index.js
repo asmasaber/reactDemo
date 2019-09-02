@@ -2,7 +2,7 @@ import React from "react";
 import { observable, toJS } from "mobx";
 
 import FormState from "./FormState";
-import {compare,isRequied} from "Services/Validators";
+import {isRequied, matches} from "Services/Validators";
 
 import Text from "Components/Form/Inputs/Text";
 
@@ -47,7 +47,7 @@ export default class Form extends React.Component {
 
     let errorMessage;
     field.validators.some((validator) => {
-      errorMessage = validator === compare? validator(value, form[field.compateTo].value) : validator(value);
+      errorMessage = validator === matches? validator(value, form[field.matchWith].value) : validator(value);
       if (errorMessage) {
         return true;
       }
