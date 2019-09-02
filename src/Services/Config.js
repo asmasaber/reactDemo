@@ -5,4 +5,5 @@ export const ApiConfig = {
 export const StoreIds = {
   post: "post",
   comment: "comment",
+  user: "user",
 };

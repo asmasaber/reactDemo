@@ -2,6 +2,10 @@ import React from "react";
 import { observable, toJS } from "mobx";
 
 import FormState from "./FormState";
+import {compare,isRequied} from "Services/Validators";
+
+import Text from "Components/Form/Inputs/Text";
+
 
 /* eslint-disable , react/no-direct-mutation-state */
 export default class Form extends React.Component {
@@ -40,9 +44,10 @@ export default class Form extends React.Component {
     const form = new FormState({ ...toJS(this.state.form) });
     const field = form[name];
 
+
     let errorMessage;
     field.validators.some((validator) => {
-      errorMessage = validator(value);
+      errorMessage = validator === compare? validator(value, form[field.compateTo].value) : validator(value);
       if (errorMessage) {
         return true;
       }
@@ -84,8 +89,9 @@ export default class Form extends React.Component {
     return fields;
   }
 
-  formFieldsgetfield(name) {
-    return toJS(this.state.form)[name];
+  getformField(name) {
+    if(this.state.form)
+      return toJS(this.state.form)[name];
   }
 
   getfieldValue(name) {
@@ -107,5 +113,19 @@ export default class Form extends React.Component {
       });
     }
     return { isFormValid, form };
+  }
+
+  renderTextBox = ({name, label, multiline, type}) => {
+    const field= this.getformField(name);
+    return (<Text
+      label= {label}
+      name= {name}
+      multiline={multiline}
+      type={type}
+      error={field && !field.isValid? field.error : ""}
+      required= {field && field.validators.includes(isRequied)}
+      fullWidth
+      onChange={this.handleChange}
+    />);
   }
 }

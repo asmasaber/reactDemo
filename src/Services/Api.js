@@ -21,6 +21,11 @@ export default {
     create: item => Api.post(`/posts/${item.postId}/comments`, item),
     update: data => Api.put(`comments/${data.id}`, data),
     delete: id => Api.delete(`comments/${id}`),
+  },
+  users: {
+    getAll: () => Api.get("/users"),
+    get: id => Api.get(`/users/${id}`),
+    create: item => Api.post("/users", item),
   }
 };
 

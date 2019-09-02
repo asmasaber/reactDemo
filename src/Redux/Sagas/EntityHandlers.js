@@ -14,6 +14,7 @@ const {
 
 const postStoreId = StoreIds.post;
 const commentStoreId = StoreIds.comment;
+const userStoreId = StoreIds.user;
 
 export default {
   get: {
@@ -52,6 +53,14 @@ export default {
         yield dispatch(postSuccess(commentStoreId));
       } else {
         yield dispatch(postFailure(commentStoreId, response.originalError.message));
+      }
+    },
+    *[userStoreId](item) {
+      const response = yield call(Api.users.create, item);
+      if (response.ok) {
+        yield dispatch(postSuccess(userStoreId));
+      } else {
+        yield dispatch(postFailure(userStoreId, response.originalError.message));
       }
     }
   },
