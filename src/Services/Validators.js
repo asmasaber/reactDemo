@@ -1,5 +1,13 @@
-export const  isRequied = value => Array.isArray(value)? value.length === 0 && "This field is required." : !value.trim() && "This field is required.";
-
+// export const  isRequied = value => Array.isArray(value)? value.length === 0 && "This field is required." : !value.toString.trim() && "This field is required.";
+export const  isRequied = value => {
+  if(Array.isArray(value)) {
+    return value.length === 0 && "This field is required.";
+  } else if(Number.isInteger(value)) {
+    return !value && "This field is required.";
+  } else {
+    return !value.trim() && "This field is required.";
+  }
+};
 export const  minLength = length => value => Array.isArray(value)? (value.length < length && `Min. Length should be ${length}`) :(value && length && value.length <= length-1 && `Min. Length should be ${length}`);
 
 export const  maxLength = length => value => Array.isArray(value)? (value.length > length && `Max. Length should be ${length}`) :(value && length && value.length >= length-1 && `Max. Length should be ${length}`);

@@ -5,6 +5,7 @@ import FormState from "./FormState";
 import {isRequied, matches} from "Services/Validators";
 
 import Text from "Components/Form/Inputs/Text";
+import Select from "Components/Form/Inputs/Select";
 import Checkbox from "Components/Form/Inputs/Checkbox";
 import CheckboxList from "Components/Form/Inputs/CheckboxList";
 import AutoComplate from "Components/Form/Inputs/AutoComplate";
@@ -147,6 +148,17 @@ export default class Form extends React.Component {
       error={field && !field.isValid? field.error : ""}
       onChange={this.handleChange}
       value ={field && field.value}
+    />);
+  }
+
+  renderSelect = (props) => {
+    const field= this.getformField(props.name);
+    return (<Select
+      {...props}
+      value ={field && field.value}
+
+      error={field && !field.isValid? field.error : ""}
+      onChange={this.handleChange}
     />);
   }
 

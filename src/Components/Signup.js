@@ -1,6 +1,5 @@
 import React from "react";
 import { observer } from "mobx-react";
-
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -36,6 +35,11 @@ const SignupForm = observer(class extends Form {
           matches
         ]
       },
+      country:{
+        validators:[
+          isRequied, 
+        ]
+      },
       bio:{
         validators:[
           minLength(1),
@@ -67,6 +71,25 @@ const SignupForm = observer(class extends Form {
 
   
   render() {
+    const countries = [
+      {
+        id:1,
+        name:"Afghanistan"
+      },
+      {
+        id:2,
+        name:"Denmark"
+      },
+      {
+        id:3,
+        name:"France"
+      },
+      {
+        id:4,
+        name:"Egypt"
+      },
+
+    ];
     const interests = [
       {
         label: "Yoga",
@@ -100,10 +123,22 @@ const SignupForm = observer(class extends Form {
           <FormGroup row>
             <Grid item xs={12}>
               {this.renderTextBox({name: "name", label:"Name"})}
+            </Grid>
+            <Grid item xs={6}>
               {this.renderTextBox({name:"password", label:"Password", type:"password"})}
+            </Grid>
+            <Grid item xs={6}>
               {this.renderTextBox({name:"repeatPassword", label:"Confirm Password", type:"password"})}
+            </Grid>
+           
+            <Grid item xs={12}>
               {this.renderTextBox({name:"bio", label:"Bio.", multiline:true})}
-              {this.renderAutoComplate({name:"ref", options:interests, isMulti:true, valueKey: "id", isSearchable:true, placeholder:"bla"})}
+            </Grid>
+            <Grid item xs={12}>
+              {this.renderSelect({name:"country", options:countries, valueKey: "id", isSearchable:true, label:"Countries"})}
+            </Grid>
+            <Grid item xs={12}>
+              {this.renderAutoComplate({name:"ref", options:interests, isMulti:true, valueKey: "id", isSearchable:true, placeholder:"Interests "})}
             </Grid>
             <Grid item xs={12}>
               {this.renderCheckBoxList({label:"Interests", name:"interests", items:interests, itemKey:"name"})}
