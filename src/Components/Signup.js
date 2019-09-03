@@ -42,6 +42,9 @@ const SignupForm = observer(class extends Form {
           maxLength(250)
         ]
       },
+      ref: {
+
+      },
       interests: {
         validators:[
           isRequied,
@@ -63,23 +66,28 @@ const SignupForm = observer(class extends Form {
     const interests = [
       {
         label: "Yoga",
-        name:"yoga"
+        name:"yoga",
+        id:"yoga",
       },
       {
         label: "Basketball",
-        name:"basketball"
+        name:"basketball",
+        id:"basketball"
       },
       {
         label: "Reading",
-        name:"reading"
+        name:"reading",
+        id:"reading",
       },
       {
         label: "Traveling",
-        name:"traveling"
+        name:"traveling",
+        id:"traveling",
       },
       {
         label: "Volunteer Work",
-        name:"volunteerWork"
+        name:"volunteerWork",
+        id:"volunteerWork"
       },
     ];
     return (
@@ -91,12 +99,16 @@ const SignupForm = observer(class extends Form {
               {this.renderTextBox({name:"password", label:"Password", type:"password"})}
               {this.renderTextBox({name:"repeatPassword", label:"Confirm Password", type:"password"})}
               {this.renderTextBox({name:"bio", label:"Bio.", multiline:true})}
-              {this.renderCheckBoxList({label:"Interests", name:"interests", items:interests, key:"name"})}
+              {this.renderAutoComplate({name:"ref", options:interests, isMulti:true, valueKey: "id", isSearchable:true})}
+            </Grid>
+            <Grid item xs={12}>
+              {this.renderCheckBoxList({label:"Interests", name:"interests", items:interests, itemKey:"name"})}
+            </Grid>
+            <Grid item xs={12}>
               {this.renderCheckBox({name:"rememberMe", label:"Remember Me"})}
-
-              
               <Button variant="contained" color="primary" onClick={this.post}>Signup</Button>
             </Grid>
+            
           </FormGroup>
         </Grid>
       </Container>

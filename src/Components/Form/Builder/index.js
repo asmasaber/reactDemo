@@ -7,6 +7,7 @@ import {isRequied, matches} from "Services/Validators";
 import Text from "Components/Form/Inputs/Text";
 import Checkbox from "Components/Form/Inputs/Checkbox";
 import CheckboxList from "Components/Form/Inputs/CheckboxList";
+import AutoComplate from "Components/Form/Inputs/AutoComplate";
 
 /* eslint-disable , react/no-direct-mutation-state */
 export default class Form extends React.Component {
@@ -111,39 +112,41 @@ export default class Form extends React.Component {
     return toJS(this.state.form)[name].value;
   }
 
-  renderTextBox = ({name, label, multiline, type}) => {
-    const field= this.getformField(name);
+  renderTextBox = (props) => {
+    const field= this.getformField(props.name);
     return (<Text
-      label= {label}
-      name= {name}
-      multiline={multiline}
-      type={type}
-      error={field && !field.isValid? field.error : ""}
-      required= {field && field.validators.includes(isRequied)}
+      {...props}
       fullWidth
-      onChange={this.handleChange}
-    />);
-  }
-
-  renderCheckBox = ({name, label}) => {
-    return (<Checkbox
-      label= {label}
-      name= {name}
-      onChange={this.handleChange}
-    />);
-  }
-
-  renderCheckBoxList = ({label, name, items, key, helper}) => {
-    const field= this.getformField(name);
-    return (<CheckboxList
-      label= {label}
-      name={name}
-      helper={helper}
-      items= {items}
-      itemKey={key}
       error={field && !field.isValid? field.error : ""}
       required= {field && field.validators.includes(isRequied)}
       onChange={this.handleChange}
     />);
   }
+
+  renderCheckBox = (props) => {
+    return (<Checkbox
+      {...props}
+      onChange={this.handleChange}
+    />);
+  }
+
+  renderCheckBoxList = (props) => {
+    const field= this.getformField(props.name);
+    return (<CheckboxList
+      {...props}
+      error={field && !field.isValid? field.error : ""}
+      required= {field && field.validators.includes(isRequied)}
+      onChange={this.handleChange}
+    />);
+  }
+
+  renderAutoComplate = (props) => {
+    const field= this.getformField(props.name);
+    return (<AutoComplate
+      {...props}
+      onChange={this.handleChange}
+      value ={field && field.value}
+    />);
+  }
+
 }

@@ -8,7 +8,6 @@ export default class Text extends React.Component {
 
   handleChange = value => {
     const { name } = this.props;
-    
     this.props.onChange(name, value);
   };
 
@@ -45,13 +44,11 @@ Text.propTypes = {
   onChange: PropTypes.func
 };
 
-Text.defaultValues = {
+Text.defaultProps = {
   label: "",
   name: "",
   value: "",
   disabled: false,
-  checked: false,
-  indeterminate: false,
   onChange() { }
 };
 

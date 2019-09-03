@@ -68,7 +68,7 @@ Text.propTypes = {
   onChange: PropTypes.func,
 };
 
-Text.defaultValues = {
+Text.defaultProps = {
   items: [],
   error: "",
   name: "",
