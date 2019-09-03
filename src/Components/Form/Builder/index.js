@@ -144,6 +144,7 @@ export default class Form extends React.Component {
     const field= this.getformField(props.name);
     return (<AutoComplate
       {...props}
+      error={field && !field.isValid? field.error : ""}
       onChange={this.handleChange}
       value ={field && field.value}
     />);

@@ -43,7 +43,11 @@ const SignupForm = observer(class extends Form {
         ]
       },
       ref: {
-
+        validators:[
+          isRequied,
+          minLength(2),
+          maxLength(3)
+        ]
       },
       interests: {
         validators:[
@@ -99,7 +103,7 @@ const SignupForm = observer(class extends Form {
               {this.renderTextBox({name:"password", label:"Password", type:"password"})}
               {this.renderTextBox({name:"repeatPassword", label:"Confirm Password", type:"password"})}
               {this.renderTextBox({name:"bio", label:"Bio.", multiline:true})}
-              {this.renderAutoComplate({name:"ref", options:interests, isMulti:true, valueKey: "id", isSearchable:true})}
+              {this.renderAutoComplate({name:"ref", options:interests, isMulti:true, valueKey: "id", isSearchable:true, placeholder:"bla"})}
             </Grid>
             <Grid item xs={12}>
               {this.renderCheckBoxList({label:"Interests", name:"interests", items:interests, itemKey:"name"})}

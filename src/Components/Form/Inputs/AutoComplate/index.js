@@ -1,6 +1,7 @@
 import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 export default class AutoComplateControl extends React.Component {
   
@@ -11,23 +12,27 @@ export default class AutoComplateControl extends React.Component {
 
   render() {
 
-    const { options, isMulti, isSearchable, placeholder, valueKey, labelKey } = this.props;
+    const { options, isMulti, isSearchable, placeholder, valueKey, labelKey, error } = this.props;
     return (
-      <Select
-        onChange={this.handleChange}
-        options={options}
-        isMulti={isMulti}
-        isSearchable={isSearchable}
-        placeholder={placeholder}
-        getOptionValue={opt => opt[valueKey]}
-        getOptionLabel={opt => opt[labelKey]}
-      />
+      <div>
+        <Select
+          onChange={this.handleChange}
+          options={options}
+          isMulti={isMulti}
+          isSearchable={isSearchable}
+          placeholder={placeholder}
+          getOptionValue={opt => opt[valueKey]}
+          getOptionLabel={opt => opt[labelKey]}
+        />
+        <FormHelperText error={!!error}>{error}</FormHelperText>
+      </div>
     );
   }
 }
 
 AutoComplateControl.propTypes = {
   name:PropTypes.string,
+  error:PropTypes.string,
   label:PropTypes.string,
   labelKey:PropTypes.string,
   valueKey:PropTypes.string,
@@ -40,6 +45,7 @@ AutoComplateControl.propTypes = {
   
 AutoComplateControl.defaultProps  = {
   name:"",
+  error:"",
   label:"",
   labelKey:"label",
   valueKey:"value",
