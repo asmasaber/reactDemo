@@ -5,7 +5,8 @@ import FormState from "./FormState";
 import {isRequied, matches} from "Services/Validators";
 
 import Text from "Components/Form/Inputs/Text";
-
+import Checkbox from "Components/Form/Inputs/Checkbox";
+import CheckboxList from "Components/Form/Inputs/CheckboxList";
 
 /* eslint-disable , react/no-direct-mutation-state */
 export default class Form extends React.Component {
@@ -21,15 +22,42 @@ export default class Form extends React.Component {
       setForm(data) {
         this.form = new FormState({ ...data });
       },
-      getForm() {
-        return this.form;
-      },
     });
   }
 
   initializeForm = (data) => {
     this.state.setForm(data);
   };
+
+  validateField = (name, value) => {
+    const form = new FormState({ ...toJS(this.state.form) });
+    const field = form[name];
+    let errorMessage;
+    field.validators.some((validator) => {
+      errorMessage = validator === matches? validator(value, form[field.matchWith].value) : validator(value);
+      if (errorMessage) {
+        return true;
+      }
+    });
+    return errorMessage;    
+  }
+
+  validateForm() {
+    const form = new FormState({ ...toJS(this.state.form) });
+    let isFormValid = true;
+    for (var key in form) {
+      const field = form[key];
+      field.validators.some((validator) => {
+        const errorMessage = validator(field.value);
+        field.error = errorMessage;
+        if (errorMessage) {
+          field.isValid = isFormValid = false;
+          return true;
+        }
+      });
+    }
+    return { isFormValid, form };
+  }
 
   handleChange = (name, value) => {
     const error = this.validateField(name, value);
@@ -40,21 +68,6 @@ export default class Form extends React.Component {
     this.state.setForm(form);
   };
 
-  validateField = (name, value) => {
-    const form = new FormState({ ...toJS(this.state.form) });
-    const field = form[name];
-
-
-    let errorMessage;
-    field.validators.some((validator) => {
-      errorMessage = validator === matches? validator(value, form[field.matchWith].value) : validator(value);
-      if (errorMessage) {
-        return true;
-      }
-    });
-    return errorMessage;    
-
-  }
   handleSubmit = (action) => {
     const validationState = this.validateForm();
     this.state.submitted = true;
@@ -98,23 +111,6 @@ export default class Form extends React.Component {
     return toJS(this.state.form)[name].value;
   }
 
-  validateForm() {
-    const form = new FormState({ ...toJS(this.state.form) });
-    let isFormValid = true;
-    for (var key in form) {
-      const field = form[key];
-      field.validators.some((validator) => {
-        const errorMessage = validator(field.value);
-        field.error = errorMessage;
-        if (errorMessage) {
-          field.isValid = isFormValid = false;
-          return true;
-        }
-      });
-    }
-    return { isFormValid, form };
-  }
-
   renderTextBox = ({name, label, multiline, type}) => {
     const field= this.getformField(name);
     return (<Text
@@ -125,6 +121,28 @@ export default class Form extends React.Component {
       error={field && !field.isValid? field.error : ""}
       required= {field && field.validators.includes(isRequied)}
       fullWidth
+      onChange={this.handleChange}
+    />);
+  }
+
+  renderCheckBox = ({name, label}) => {
+    return (<Checkbox
+      label= {label}
+      name= {name}
+      onChange={this.handleChange}
+    />);
+  }
+
+  renderCheckBoxList = ({label, name, items, key, helper}) => {
+    const field= this.getformField(name);
+    return (<CheckboxList
+      label= {label}
+      name={name}
+      helper={helper}
+      items= {items}
+      itemKey={key}
+      error={field && !field.isValid? field.error : ""}
+      required= {field && field.validators.includes(isRequied)}
       onChange={this.handleChange}
     />);
   }

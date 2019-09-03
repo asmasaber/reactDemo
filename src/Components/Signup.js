@@ -42,6 +42,14 @@ const SignupForm = observer(class extends Form {
           maxLength(250)
         ]
       },
+      interests: {
+        validators:[
+          isRequied,
+          minLength(2),
+          maxLength(3)
+        ]
+      },
+      rememberMe:{}
     }); 
   }
 
@@ -52,6 +60,28 @@ const SignupForm = observer(class extends Form {
 
   
   render() {
+    const interests = [
+      {
+        label: "Yoga",
+        name:"yoga"
+      },
+      {
+        label: "Basketball",
+        name:"basketball"
+      },
+      {
+        label: "Reading",
+        name:"reading"
+      },
+      {
+        label: "Traveling",
+        name:"traveling"
+      },
+      {
+        label: "Volunteer Work",
+        name:"volunteerWork"
+      },
+    ];
     return (
       <Container maxWidth="md">
         <Grid container spacing={3}>
@@ -61,6 +91,10 @@ const SignupForm = observer(class extends Form {
               {this.renderTextBox({name:"password", label:"Password", type:"password"})}
               {this.renderTextBox({name:"repeatPassword", label:"Confirm Password", type:"password"})}
               {this.renderTextBox({name:"bio", label:"Bio.", multiline:true})}
+              {this.renderCheckBoxList({label:"Interests", name:"interests", items:interests, key:"name"})}
+              {this.renderCheckBox({name:"rememberMe", label:"Remember Me"})}
+
+              
               <Button variant="contained" color="primary" onClick={this.post}>Signup</Button>
             </Grid>
           </FormGroup>

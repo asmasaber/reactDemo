@@ -1,8 +1,8 @@
-export const  isRequied = value => !value.trim() && "This field is required." ;
+export const  isRequied = value => Array.isArray(value)? value.length === 0 && "This field is required." : !value.trim() && "This field is required.";
 
-export const  minLength = length => value => value && length && value.length <= length-1 && `Min. Length should be ${length}`;
+export const  minLength = length => value => Array.isArray(value)? (value.length < length && `Min. Length should be ${length}`) :(value && length && value.length <= length-1 && `Min. Length should be ${length}`);
 
-export const  maxLength = length => value =>  value && length && value.length >= length-1 && `Max. Length should be ${length}`;
+export const  maxLength = length => value => Array.isArray(value)? (value.length > length && `Max. Length should be ${length}`) :(value && length && value.length >= length-1 && `Max. Length should be ${length}`);
 
 export const isText = value => value && !/^([^0-9]*)$/.test(value) && "value should not contain numbers";
 
