@@ -1,153 +1,150 @@
 import React from "react";
+import asEntity from "Hocs/asEntity";
 import { observer } from "mobx-react";
 import Grid from "@material-ui/core/Grid";
+import Form from "Components/Form/Builder";
+import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import FormGroup from "@material-ui/core/FormGroup";
-import Button from "@material-ui/core/Button";
-
-import Form from "Components/Form/Builder";
-
-import asEntity from "Hocs/asEntity";
-
-import {isRequied, minLength, maxLength, checkPassword, matches} from "Services/Validators";
+import { countries, interests, gender } from "Utils/Data";
+import { isRequied, minLength, maxLength, checkPassword, matches } from "Services/Validators";
 
 const SignupForm = observer(class extends Form {
-
+  
   componentDidMount() {
     this.initializeForm({
-      name:{
-        validators:[
-          isRequied,
+      name: {
+        validators: [
+          isRequied(),
           minLength(3),
           maxLength(25)
         ]
       },
-      password:{
-        validators:[
-          isRequied, 
-          checkPassword
+      password: {
+        validators: [
+          isRequied(),
+          checkPassword(),
         ]
       },
-      repeatPassword:{
-        matchWith:"password",
-        validators:[
-          isRequied, 
-          matches
+      repeatPassword: {
+        validators: [
+          isRequied(),
+          matches(() => this.formValues.password, "bla")
         ]
       },
-      country:{
-        validators:[
-          isRequied, 
-        ]
-      },
-      bio:{
-        validators:[
+      country: {},
+      bio: {
+        validators: [
           minLength(1),
           maxLength(250)
         ]
       },
-      ref: {
-        validators:[
-          isRequied,
-          minLength(2),
-          maxLength(3)
+      ref: {},
+      interests: {},
+      gender: {
+        value: 1,
+        validators: [
+          isRequied(),
         ]
       },
-      interests: {
-        validators:[
-          isRequied,
-          minLength(2),
-          maxLength(3)
-        ]
-      },
-      rememberMe:{}
-    }); 
+      rememberMe: {}
+    });
   }
 
   post = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     this.handleSubmit(this.props.post);
   }
 
+  submit() {
+    if (this.formValidvalidate) {
+      // sdasd
+    } else {
+      this.showErrors();
+    }
+  }
   
   render() {
-    const countries = [
-      {
-        id:1,
-        name:"Afghanistan"
-      },
-      {
-        id:2,
-        name:"Denmark"
-      },
-      {
-        id:3,
-        name:"France"
-      },
-      {
-        id:4,
-        name:"Egypt"
-      },
-
-    ];
-    const interests = [
-      {
-        label: "Yoga",
-        name:"yoga",
-        id:"yoga",
-      },
-      {
-        label: "Basketball",
-        name:"basketball",
-        id:"basketball"
-      },
-      {
-        label: "Reading",
-        name:"reading",
-        id:"reading",
-      },
-      {
-        label: "Traveling",
-        name:"traveling",
-        id:"traveling",
-      },
-      {
-        label: "Volunteer Work",
-        name:"volunteerWork",
-        id:"volunteerWork"
-      },
-    ];
+    const { TextField, Select, AutoComplate, CheckboxList, RedioButtons, Checkbox } = this;
     return (
       <Container maxWidth="md">
         <Grid container spacing={3}>
           <FormGroup row>
             <Grid item xs={12}>
-              {this.renderTextBox({name: "name", label:"Name"})}
+              <TextField
+                name="name"
+                label="Name"
+                fullWidth
+              />
             </Grid>
             <Grid item xs={6}>
-              {this.renderTextBox({name:"password", label:"Password", type:"password"})}
+              <TextField
+                name="password"
+                label="Password"
+                type="password"
+                fullWidth
+              />
             </Grid>
             <Grid item xs={6}>
-              {this.renderTextBox({name:"repeatPassword", label:"Confirm Password", type:"password"})}
-            </Grid>
-           
-            <Grid item xs={12}>
-              {this.renderTextBox({name:"bio", label:"Bio.", multiline:true})}
-            </Grid>
-            <Grid item xs={12}>
-              {this.renderSelect({name:"country", options:countries, valueKey: "id", isSearchable:true, label:"Countries"})}
+              <TextField
+                name="repeatPassword"
+                label="Confirm Password"
+                type="password"
+                fullWidth
+              />
             </Grid>
             <Grid item xs={12}>
-              {this.renderAutoComplate({name:"ref", options:interests, isMulti:true, valueKey: "id", isSearchable:true, placeholder:"Interests "})}
+              <Select
+                name="country"
+                label="Countries"
+                options={countries}
+                valueKey="id"
+                isSearchable
+                fullWidth
+              />
             </Grid>
             <Grid item xs={12}>
-              {this.renderCheckBoxList({label:"Interests", name:"interests", items:interests, itemKey:"name"})}
+              <AutoComplate
+                name="ref"
+                valueKey="id"
+                placeholder="Interests"
+                options={interests}
+                isMulti
+                isSearchable
+              />
             </Grid>
             <Grid item xs={12}>
-              {this.renderCheckBox({name:"rememberMe", label:"Remember Me"})}
+              <CheckboxList
+                label="Interests"
+                name="interests"
+                items={interests}
+                itemKey="name"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <RedioButtons
+                label="Gender"
+                name="gender"
+                options={gender}
+                valueKey="id"
+                labelKey="value"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                name="bio"
+                label="Bio."
+                multiline
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Checkbox
+                name="rememberMe"
+                label="Remember Me"
+              />
               <Button variant="contained" color="primary" onClick={this.post}>Signup</Button>
             </Grid>
-            
           </FormGroup>
         </Grid>
       </Container>

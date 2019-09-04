@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
-
   
 export default class Text extends React.Component{
 
@@ -12,16 +10,7 @@ export default class Text extends React.Component{
     };
   
     render() {
-      const classes =  makeStyles(theme => ({
-        textField: {
-          marginLeft: theme.spacing(1),
-          marginRight: theme.spacing(1),
-          width: 200,
-        },
-      }));
-
       const { label, name , error, required, disabled, type, readOnly, multiline, defaultValue, fullWidth} =  this.props;
-
       return (
         <TextField
           name={name}
@@ -35,7 +24,6 @@ export default class Text extends React.Component{
           rows="4"
           defaultValue={defaultValue}
           helperText={!!error && error}
-          className={classes.textField}
           onChange={e => this.handleChange(e.target.value)}
           fullWidth= {fullWidth}
           margin="normal"

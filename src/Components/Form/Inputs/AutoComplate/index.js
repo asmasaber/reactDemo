@@ -1,7 +1,9 @@
 import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
+import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
+
 
 export default class AutoComplateControl extends React.Component {
   
@@ -14,7 +16,7 @@ export default class AutoComplateControl extends React.Component {
 
     const { options, isMulti, isSearchable, placeholder, valueKey, labelKey, error } = this.props;
     return (
-      <div>
+      <FormControl variant="outlined"  fullWidth error={!!error}>
         <Select
           onChange={this.handleChange}
           options={options}
@@ -25,7 +27,7 @@ export default class AutoComplateControl extends React.Component {
           getOptionLabel={opt => opt[labelKey]}
         />
         <FormHelperText error={!!error}>{error}</FormHelperText>
-      </div>
+      </FormControl>
     );
   }
 }

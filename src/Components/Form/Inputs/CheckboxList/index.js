@@ -35,9 +35,9 @@ export default class Text extends React.Component {
 
     const { label, required, items, error, helper, itemKey } = this.props;
     return (
-      <FormControl required={required} error={!!error} component="fieldset" className={classes.formControl} >
+      <FormControl variant="outlined" required={required} error={!!error} component="fieldset" className={classes.formControl} >
         <FormLabel component="legend">{label}</FormLabel>
-        <FormGroup>
+        <FormGroup row>
           {items.map((item) => {
             return (<FormControlLabel
               key={item[itemKey]}

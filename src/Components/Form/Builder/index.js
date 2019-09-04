@@ -1,43 +1,42 @@
 import React from "react";
-import { observable, toJS } from "mobx";
 
 import FormState from "./FormState";
-import {isRequied, matches} from "Services/Validators";
-
-import Text from "Components/Form/Inputs/Text";
-import Select from "Components/Form/Inputs/Select";
-import Checkbox from "Components/Form/Inputs/Checkbox";
-import CheckboxList from "Components/Form/Inputs/CheckboxList";
-import AutoComplate from "Components/Form/Inputs/AutoComplate";
+import { observable, toJS } from "mobx";
+import Controls from "Components/Form/Inputs";
 
 /* eslint-disable , react/no-direct-mutation-state */
 export default class Form extends React.Component {
 
-  state = {};
+  state = observable({
+    _form: {},
+    submitted: false,
+    isFormValid: true,
+    showErrors: false,
+    setForm(data) {
+      this.form = new FormState({ ...data });
+    },
+  });
 
   constructor(props) {
     super(props);
-    this.state = observable({
-      _form: {},
-      submitted: false,
-      isFormValid: true,
-      setForm(data) {
-        this.form = new FormState({ ...data });
-      },
-    });
+    for (const [Key, Value] of Object.entries(Controls)) {
+      this[Key] = props => (<Value {...props} {...this.commenProps(props.name)} />);
+    }
   }
 
   initializeForm = (data) => {
     this.state.setForm(data);
   };
 
+
   validateField = (name, value) => {
-    const form = new FormState({ ...toJS(this.state.form) });
-    const field = form[name];
+    const field = new FormState({ ...toJS(this.state.form)})[name];
+
     let errorMessage;
     field.validators.some((validator) => {
-      errorMessage = validator === matches? validator(value, form[field.matchWith].value) : validator(value);
-      if (errorMessage) {
+      const isValid = validator.validate(value);
+      if (!isValid) {
+        errorMessage =  validator.message;
         return true;
       }
     });
@@ -78,12 +77,22 @@ export default class Form extends React.Component {
     this.isFormValid && action(this.formValues);
   };
 
+  commenProps = (name) => ({
+    ...this.getformField(name),
+    showError: this.showErrors,
+    onChange: this.handleChange
+  });
+
   get isFormValid() {
     return this.state.isFormValid;
   }
 
   get isFormSubmitted() {
     return this.state.submitted;
+  }
+
+  get showErrors() {
+    return this.state.showErrors;
   }
 
   get formValues() {
@@ -112,54 +121,4 @@ export default class Form extends React.Component {
   getfieldValue(name) {
     return toJS(this.state.form)[name].value;
   }
-
-  renderTextBox = (props) => {
-    const field= this.getformField(props.name);
-    return (<Text
-      {...props}
-      fullWidth
-      error={field && !field.isValid? field.error : ""}
-      required= {field && field.validators.includes(isRequied)}
-      onChange={this.handleChange}
-    />);
-  }
-
-  renderCheckBox = (props) => {
-    return (<Checkbox
-      {...props}
-      onChange={this.handleChange}
-    />);
-  }
-
-  renderCheckBoxList = (props) => {
-    const field= this.getformField(props.name);
-    return (<CheckboxList
-      {...props}
-      error={field && !field.isValid? field.error : ""}
-      required= {field && field.validators.includes(isRequied)}
-      onChange={this.handleChange}
-    />);
-  }
-
-  renderAutoComplate = (props) => {
-    const field= this.getformField(props.name);
-    return (<AutoComplate
-      {...props}
-      error={field && !field.isValid? field.error : ""}
-      onChange={this.handleChange}
-      value ={field && field.value}
-    />);
-  }
-
-  renderSelect = (props) => {
-    const field= this.getformField(props.name);
-    return (<Select
-      {...props}
-      value ={field && field.value}
-
-      error={field && !field.isValid? field.error : ""}
-      onChange={this.handleChange}
-    />);
-  }
-
 }

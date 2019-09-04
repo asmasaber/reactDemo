@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -26,29 +25,15 @@ export default class SelectControl extends React.Component {
 
   handleChange = value => {
     const { name } = this.props;
-    console.log("select", value)
     this.props.onChange(name, value);
   };
 
   render() {
 
-    const classes = makeStyles(theme => ({
-      root: {
-        display: "flex",
-        flexWrap: "wrap",
-      },
-      formControl: {
-        margin: theme.spacing(1),
-        minWidth: 500,
-      },
-      selectEmpty: {
-        marginTop: theme.spacing(2),
-      },
-    }));
     const { name, helper , error , value, label, options, valueKey } = this.props;
 
     return (
-      <FormControl variant="outlined" className={classes.formControl} fullWidth error={error}>
+      <FormControl variant="outlined" fullWidth error={!!error}>
         <InputLabel ref={this.inputLabel} htmlFor="outlined-select">
           {label}
         </InputLabel>
@@ -63,11 +48,9 @@ export default class SelectControl extends React.Component {
           {options.map((option) => {
             return (<MenuItem key={option[valueKey]} value={option[valueKey]}>{option.name}</MenuItem>);
           })}
-        
         </Select>
         <FormHelperText>{error || helper}</FormHelperText>
       </FormControl>
-
     );
   }
 }
@@ -79,7 +62,10 @@ SelectControl.propTypes = {
     PropTypes.string,
     PropTypes.number
   ]),
-  error: PropTypes.string,
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   helper: PropTypes.string,
   options: PropTypes.array,
   valueKey: PropTypes.string,

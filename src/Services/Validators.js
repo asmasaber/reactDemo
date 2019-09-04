@@ -1,22 +1,26 @@
-// export const  isRequied = value => Array.isArray(value)? value.length === 0 && "This field is required." : !value.toString.trim() && "This field is required.";
-export const  isRequied = value => {
-  if(Array.isArray(value)) {
-    return value.length === 0 && "This field is required.";
-  } else if(Number.isInteger(value)) {
-    return !value && "This field is required.";
-  } else {
-    return !value.trim() && "This field is required.";
-  }
-};
-export const  minLength = length => value => Array.isArray(value)? (value.length < length && `Min. Length should be ${length}`) :(value && length && value.length <= length-1 && `Min. Length should be ${length}`);
+export const  isRequied = (message= "This field is required.") => ({
+  validate: (value) => value.trim().length > 0,
+  message
+});
 
-export const  maxLength = length => value => Array.isArray(value)? (value.length > length && `Max. Length should be ${length}`) :(value && length && value.length >= length-1 && `Max. Length should be ${length}`);
+export const  minLength = (length, message = `Min. Length should be ${length}` ) => ({
+  validate: value => value.length >= length,
+  message
+});
 
-export const isText = value => value && !/^([^0-9]*)$/.test(value) && "value should not contain numbers";
+export const  maxLength = (length, message = `Max. Length should be ${length}` ) => ({
+  validate: value => value.length <= length,
+  message
+});
 
-export const isPhone = value => value && !/^(01)[0-9]{9}$/.test(value) && "not Valid Phone";
+export const checkPassword = (message = "password should contain at least one (1) character from three (3) of the following categories: Uppercase letter (A-Z) Lowercase letter (a-z) Digit (0-9) Special character (~`!@#$%^&*()+=_-{}[] | ...]") => ({
+  validate: value => value && !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(value),
+  message
+});
 
-export const checkPassword = value => value && !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
-  .test(value) && "password should contain at least one (1) character from three (3) of the following categories: Uppercase letter (A-Z) Lowercase letter (a-z) Digit (0-9) Special character (~`!@#$%^&*()+=_-{}[] | ...]";
+export const matches = (xValue, message= "Not Matched") =>  ({
+  validate: (value) => xValue() === value,
+  message
+});
 
-export const matches = (value, compareTo) => value && compareTo && value !== compareTo && "fields not matched";
+
