@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
   
-export default class Text extends React.Component{
+export default class TextFieldControl extends React.Component{
 
     handleChange = value => {
       const { name } = this.props;
@@ -34,7 +34,7 @@ export default class Text extends React.Component{
     }
 }
 
-Text.propTypes = {
+TextFieldControl.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   error: PropTypes.string,
@@ -48,7 +48,7 @@ Text.propTypes = {
   onChange: PropTypes.func
 };
 
-Text.defaultProps = {
+TextFieldControl.defaultProps = {
   label: "",
   error: "",
   type: "text",

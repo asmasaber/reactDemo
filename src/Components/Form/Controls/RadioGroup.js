@@ -8,7 +8,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 
 
-export default class RadioButtonsGroup extends React.Component {
+export default class RadioGroupControl extends React.Component {
   
     handleChange = value => {
       const { name } = this.props;
@@ -35,7 +35,7 @@ export default class RadioButtonsGroup extends React.Component {
     
 }
 
-RadioButtonsGroup.propTypes = {
+RadioGroupControl.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.oneOfType([
@@ -55,7 +55,7 @@ RadioButtonsGroup.propTypes = {
   onChange: PropTypes.func
 };
   
-RadioButtonsGroup.defaultProps = {
+RadioGroupControl.defaultProps = {
   label: "Select",
   name: "",
   options: [],

@@ -10,7 +10,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
-export default class Text extends React.Component {
+export default class CheckboxListControl extends React.Component {
     selected = [];
 
   onChange = (item, state) => {
@@ -57,7 +57,7 @@ export default class Text extends React.Component {
   }
 }
 
-Text.propTypes = {
+CheckboxListControl.propTypes = {
   error: PropTypes.string,
   label: PropTypes.string,
   name: PropTypes.string,
@@ -68,7 +68,7 @@ Text.propTypes = {
   onChange: PropTypes.func,
 };
 
-Text.defaultProps = {
+CheckboxListControl.defaultProps = {
   items: [],
   error: "",
   name: "",

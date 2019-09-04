@@ -2,7 +2,7 @@ import React from "react";
 
 import FormState from "./FormState";
 import { observable, toJS } from "mobx";
-import Controls from "Components/Form/Inputs";
+import Controls from "Components/Form/Controls";
 
 /* eslint-disable , react/no-direct-mutation-state */
 export default class Form extends React.Component {

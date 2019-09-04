@@ -1,9 +1,9 @@
-import TextField from "./Text";
+import TextField from "./TextField";
 import Select from "./Select";
 import Checkbox from "./Checkbox";
 import AutoComplate from "./AutoComplate";
 import CheckboxList from "./CheckboxList";
-import RedioButtons from "./RedioButtons";
+import RedioButtons from "./RadioGroup";
 
 export default {
   TextField,

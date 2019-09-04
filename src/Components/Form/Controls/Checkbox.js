@@ -4,7 +4,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 
-export default class Text extends React.Component {
+export default class CheckboxControl extends React.Component {
 
   handleChange = value => {
     const { name } = this.props;
@@ -34,7 +34,7 @@ export default class Text extends React.Component {
   }
 }
 
-Text.propTypes = {
+CheckboxControl.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
@@ -44,7 +44,7 @@ Text.propTypes = {
   onChange: PropTypes.func
 };
 
-Text.defaultProps = {
+CheckboxControl.defaultProps = {
   label: "",
   name: "",
   value: "",
