@@ -11,48 +11,56 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
 export default class CheckboxListControl extends React.Component {
-    selected = [];
+  selected = [];
 
   onChange = (item, state) => {
     const { name, onChange } = this.props;
-    if(state) {
+    if (state) {
       this.selected.push(item);
     } else {
-      this.selected.splice(this.selected.indexOf(item),1);
+      this.selected.splice(this.selected.indexOf(item), 1);
     }
     onChange(name, this.selected);
-  }
+  };
   render() {
-
     const classes = makeStyles(theme => ({
       root: {
-        display: "flex",
+        display: "flex"
       },
       formControl: {
-        margin: theme.spacing(3),
-      },
+        margin: theme.spacing(3)
+      }
     }));
 
     const { label, required, items, error, helper, itemKey } = this.props;
     return (
-      <FormControl variant="outlined" required={required} error={!!error} component="fieldset" className={classes.formControl} >
+      <FormControl
+        variant="outlined"
+        required={required}
+        error={!!error}
+        component="fieldset"
+        className={classes.formControl}
+      >
         <FormLabel component="legend">{label}</FormLabel>
         <FormGroup row>
-          {items.map((item) => {
-            return (<FormControlLabel
-              key={item[itemKey]}
-              control={<Checkbox 
-                checked={item.checked} 
-                id={item[itemKey]} 
-                onChange={e => this.onChange(e.target.id, e.target.checked)} 
-              />}
-              label={item.label}
-            />);
+          {items.map(item => {
+            return (
+              <FormControlLabel
+                key={item[itemKey]}
+                control={
+                  <Checkbox
+                    checked={item.checked}
+                    id={item[itemKey]}
+                    onChange={e => this.onChange(e.target.id, e.target.checked)}
+                  />
+                }
+                label={item.label}
+              />
+            );
           })}
         </FormGroup>
         <FormHelperText>{helper || error}</FormHelperText>
       </FormControl>
-
     );
   }
 }
@@ -65,7 +73,7 @@ CheckboxListControl.propTypes = {
   helper: PropTypes.string,
   items: PropTypes.array,
   required: PropTypes.bool,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func
 };
 
 CheckboxListControl.defaultProps = {
@@ -76,6 +84,5 @@ CheckboxListControl.defaultProps = {
   label: "",
   helper: "",
   required: false,
-  onChange() {},
+  onChange() {}
 };
-

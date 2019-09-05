@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { createReducer, createActions } from "reduxsauce";
-import { fromJS } from 'immutable';
+import { fromJS } from "immutable";
 
 const INITIAL_STATE = fromJS({});
 const SINGLE_STATE = { loading: false, id: null, item: {}, error: null };
@@ -15,7 +15,7 @@ export const { Types, Creators } = createActions({
   postFailure: ["storeId", "error"],
   put: ["storeId", "item"],
   putSuccess: ["storeId", "item"],
-  putFailure: ["storeId", "error"],
+  putFailure: ["storeId", "error"]
 });
 
 const loadingHandler = (state, action) => {
@@ -51,7 +51,7 @@ const HANDLERS = {
   [Types.POST_FAILURE]: failureHandler,
   [Types.PUT]: loadingHandler,
   [Types.PUT_SUCCESS]: successHandler,
-  [Types.PUT_FAILURE]: failureHandler,
+  [Types.PUT_FAILURE]: failureHandler
 };
 
 export default createReducer(INITIAL_STATE, HANDLERS);

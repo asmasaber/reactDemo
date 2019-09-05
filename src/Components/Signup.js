@@ -7,25 +7,23 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import FormGroup from "@material-ui/core/FormGroup";
 import { countries, interests, gender } from "Utils/Data";
-import { isRequied, minLength, maxLength, checkPassword, matches } from "Services/Validators";
+import {
+  isRequied,
+  minLength,
+  maxLength,
+  checkPassword,
+  matches
+} from "Services/Validators";
 
 @observer
 class SignupForm extends Form {
-  
   componentDidMount() {
     this.initializeForm({
       name: {
-        validators: [
-          isRequied(),
-          minLength(3),
-          maxLength(25)
-        ]
+        validators: [isRequied(), minLength(3), maxLength(25)]
       },
       password: {
-        validators: [
-          isRequied(),
-          checkPassword(),
-        ]
+        validators: [isRequied(), checkPassword()]
       },
       repeatPassword: {
         validators: [
@@ -35,14 +33,12 @@ class SignupForm extends Form {
       },
       country: {},
       bio: {
-        validators: [
-          maxLength(250)
-        ]
+        validators: [maxLength(250)]
       },
       ref: {},
       interests: {},
       gender: {
-        value: 1,
+        value: 1
       },
       rememberMe: {}
     });
@@ -56,30 +52,32 @@ class SignupForm extends Form {
     } else {
       this.showErrors();
     }
-  }
-  
+  };
+
   render() {
     /* eslint-disable */
-    const { isFormValid,  isFormSubmitted } = this;
-    const { TextField, Select, AutoComplate, CheckboxList, RedioButtons, Checkbox } = this;
-    if(this.isFormInitialized) {
+    const { isFormValid, isFormSubmitted } = this;
+    const {
+      TextField,
+      Select,
+      AutoComplate,
+      CheckboxList,
+      RedioButtons,
+      Checkbox
+    } = this;
+    if (this.isFormInitialized) {
       return (
         <Container maxWidth="md">
           <Grid container spacing={3}>
             <FormGroup row>
               <Grid item xs={12}>
-                <TextField
-                  name="name"
-                  label="Name"
-                  fullWidth
-                />
+                <TextField name="name" label="Name" fullWidth />
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   name="password"
                   label="Password"
                   type="password"
-                  fullWidth
                 />
               </Grid>
               <Grid item xs={6}>
@@ -87,7 +85,6 @@ class SignupForm extends Form {
                   name="repeatPassword"
                   label="Confirm Password"
                   type="password"
-                  fullWidth
                 />
               </Grid>
               <Grid item xs={12}>
@@ -97,7 +94,6 @@ class SignupForm extends Form {
                   options={countries}
                   valueKey="id"
                   isSearchable
-                  fullWidth
                 />
               </Grid>
               <Grid item xs={12}>
@@ -128,19 +124,17 @@ class SignupForm extends Form {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  name="bio"
-                  label="Bio."
-                  multiline
-                  fullWidth
-                />
+                <TextField name="bio" label="Bio." multiline  />
               </Grid>
               <Grid item xs={12}>
-                <Checkbox
-                  name="rememberMe"
-                  label="Remember Me"
-                />
-                <Button variant="contained" color="primary" onClick={this.submit}>Signup</Button>
+                <Checkbox name="rememberMe" label="Remember Me" />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.submit}
+                >
+                  Signup
+                </Button>
               </Grid>
             </FormGroup>
           </Grid>

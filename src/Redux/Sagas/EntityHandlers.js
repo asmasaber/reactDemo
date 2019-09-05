@@ -1,6 +1,6 @@
 import { call, put as dispatch } from "redux-saga/effects";
 import { Creators } from "Redux/Actions/Entity";
-import {StoreIds} from "Services/Config";
+import { StoreIds } from "Services/Config";
 import Api from "Services/Api";
 
 const {
@@ -23,9 +23,7 @@ export default {
       if (response.ok) {
         yield dispatch(getSuccess(postStoreId, response.data));
       } else {
-        yield dispatch(
-          getFailure(postStoreId, response.originalError.message)
-        );
+        yield dispatch(getFailure(postStoreId, response.originalError.message));
       }
     },
     *[commentStoreId](id) {
@@ -44,7 +42,9 @@ export default {
       if (response.ok) {
         yield dispatch(postSuccess(postStoreId));
       } else {
-        yield dispatch(postFailure(postStoreId, response.originalError.message));
+        yield dispatch(
+          postFailure(postStoreId, response.originalError.message)
+        );
       }
     },
     *[commentStoreId](item) {
@@ -52,7 +52,9 @@ export default {
       if (response.ok) {
         yield dispatch(postSuccess(commentStoreId));
       } else {
-        yield dispatch(postFailure(commentStoreId, response.originalError.message));
+        yield dispatch(
+          postFailure(commentStoreId, response.originalError.message)
+        );
       }
     },
     *[userStoreId](item) {
@@ -60,7 +62,9 @@ export default {
       if (response.ok) {
         yield dispatch(postSuccess(userStoreId));
       } else {
-        yield dispatch(postFailure(userStoreId, response.originalError.message));
+        yield dispatch(
+          postFailure(userStoreId, response.originalError.message)
+        );
       }
     }
   },
@@ -78,7 +82,9 @@ export default {
       if (response.ok) {
         yield dispatch(putSuccess(commentStoreId));
       } else {
-        yield dispatch(putFailure(commentStoreId, response.originalError.message));
+        yield dispatch(
+          putFailure(commentStoreId, response.originalError.message)
+        );
       }
     }
   }

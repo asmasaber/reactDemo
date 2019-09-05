@@ -5,8 +5,7 @@ import { connect } from "react-redux";
 import { Creators as actions } from "Redux/Actions/Entity";
 import { store } from "Redux/Store";
 
-export default ( params = {} ) => {
-
+export default (params = {}) => {
   const { storeId } = params;
   if (!storeId) {
     throw new Error(
@@ -25,9 +24,14 @@ export default ( params = {} ) => {
       }
 
       componentDidMount() {
-        if(process.env.NODE_ENV !== "development" && Object.prototype.hasOwnProperty.call(store.getState().entity, storeId)) {
-          throw new Error("An Error has occurred while Creating Redux State in asEntity HOC, asEntity HOC require Unique storeKey to create Redux State");    
-        } 
+        if (
+          process.env.NODE_ENV !== "development" &&
+          Object.prototype.hasOwnProperty.call(store.getState().entity, storeId)
+        ) {
+          throw new Error(
+            "An Error has occurred while Creating Redux State in asEntity HOC, asEntity HOC require Unique storeKey to create Redux State"
+          );
+        }
         this.props.register(storeId);
       }
 
@@ -47,7 +51,7 @@ export default ( params = {} ) => {
         const providedHOF = {
           post: this.post,
           get: this.get,
-          put: this.put,
+          put: this.put
         };
         const providedProps = {
           loading: this.props.loading,
@@ -67,7 +71,11 @@ export default ( params = {} ) => {
     }
 
     const mapStateToProps = store => {
-      return { storeEntity: store.entity[params.storeId]? { ...store.entity[params.storeId] }: null };
+      return {
+        storeEntity: store.entity[params.storeId]
+          ? { ...store.entity[params.storeId] }
+          : null
+      };
     };
 
     const mapDispatchToProps = dispatch => {

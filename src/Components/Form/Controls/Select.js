@@ -7,12 +7,9 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
-
 import { observable } from "mobx";
 
-
 export default class SelectControl extends React.Component {
-
   constructor(props) {
     super(props);
     this.inputLabel = observable.box(React.createRef());
@@ -29,8 +26,7 @@ export default class SelectControl extends React.Component {
   };
 
   render() {
-
-    const { name, helper , error , value, label, options, valueKey } = this.props;
+    const { name, helper, error, value, label, options, valueKey } = this.props;
 
     return (
       <FormControl variant="outlined" fullWidth error={!!error}>
@@ -38,15 +34,25 @@ export default class SelectControl extends React.Component {
           {label}
         </InputLabel>
         <Select
-          value={value}  
-          onChange={event =>this.handleChange(event.target.value)}
-          input={<OutlinedInput name={name} id="outlined-select" labelWidth={this.labelWidth}/>}
+          value={value}
+          onChange={event => this.handleChange(event.target.value)}
+          input={
+            <OutlinedInput
+              name={name}
+              id="outlined-select"
+              labelWidth={this.labelWidth}
+            />
+          }
         >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          {options.map((option) => {
-            return (<MenuItem key={option[valueKey]} value={option[valueKey]}>{option.name}</MenuItem>);
+          {options.map(option => {
+            return (
+              <MenuItem key={option[valueKey]} value={option[valueKey]}>
+                {option.name}
+              </MenuItem>
+            );
           })}
         </Select>
         <FormHelperText>{error || helper}</FormHelperText>
@@ -58,14 +64,8 @@ export default class SelectControl extends React.Component {
 SelectControl.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  error: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  error: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   helper: PropTypes.string,
   options: PropTypes.array,
   valueKey: PropTypes.string,
@@ -79,8 +79,7 @@ SelectControl.defaultProps = {
   value: "",
   options: [],
   valueKey: "value",
-  error:"",
-  helper:"",
-  onChange() { }
+  error: "",
+  helper: "",
+  onChange() {}
 };
-
