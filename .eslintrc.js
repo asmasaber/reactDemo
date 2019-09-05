@@ -7,7 +7,7 @@ module.exports = {
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
     ],
     "globals": {
         "Atomics": "readonly",
@@ -15,7 +15,8 @@ module.exports = {
     },
     "parserOptions": {
         "ecmaFeatures": {
-            "jsx": true
+            "jsx": true,
+            legacyDecorators: true
         },
         "ecmaVersion": 2018,
         "sourceType": "module"

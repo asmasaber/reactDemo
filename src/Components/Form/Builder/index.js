@@ -1,5 +1,4 @@
 import React from "react";
-
 import FormState from "./FormState";
 import { observable, toJS } from "mobx";
 import Controls from "Components/Form/Controls";
@@ -12,13 +11,16 @@ export default class Form extends React.Component {
     submitted: false,
     isFormValid: true,
     showErrors: false,
+    isFormInitialized: false,
     setForm(data) {
       this.form = new FormState({ ...data });
+      this.isFormInitialized = true;
     },
   });
 
   constructor(props) {
     super(props);
+    /* eslint-disable */
     for (const [Key, Value] of Object.entries(Controls)) {
       this[Key] = props => (<Value {...props} {...this.commenProps(props.name)} />);
     }
@@ -28,61 +30,72 @@ export default class Form extends React.Component {
     this.state.setForm(data);
   };
 
-
   validateField = (name, value) => {
-    const field = new FormState({ ...toJS(this.state.form)})[name];
+    const field = this.state.form[name];
 
-    let errorMessage;
     field.validators.some((validator) => {
-      const isValid = validator.validate(value);
-      if (!isValid) {
-        errorMessage =  validator.message;
+      field.error= "";
+      field.isValid = validator.validate(value);
+      if (!field.isValid) {
+        field.error =  validator.message;
         return true;
       }
     });
-    return errorMessage;    
   }
 
   validateForm() {
+    this.state.isFormValid = true;
     const form = new FormState({ ...toJS(this.state.form) });
     let isFormValid = true;
     for (var key in form) {
-      const field = form[key];
-      field.validators.some((validator) => {
-        const errorMessage = validator(field.value);
-        field.error = errorMessage;
-        if (errorMessage) {
-          field.isValid = isFormValid = false;
+      form[key].validators.some((validator) => {
+        const isValid = validator.validate(form[key].value);
+        if (!isValid) {
+          form[key].isValid = isFormValid = false;
+          form[key].error = validator.message;
           return true;
         }
       });
     }
-    return { isFormValid, form };
+    this.state.isFormValid = isFormValid;
+    this.state.setForm(form);
   }
 
   handleChange = (name, value) => {
-    const error = this.validateField(name, value);
-    const form = new FormState({ ...toJS(this.state.form) });
-    form[name].value = value;
-    form[name].isValid= error? false : true;
-    form[name].error= error;
-    this.state.setForm(form);
-  };
-
-  handleSubmit = (action) => {
-    const validationState = this.validateForm();
-    this.state.submitted = true;
-    this.state.isFormValid = validationState.isFormValid;
-    this.state.setForm(validationState.form);
-    this.isFormValid && action(this.formValues);
+    this.state.form[name].value = value;
+    this.validateField(name, value)
   };
 
   commenProps = (name) => ({
     ...this.getformField(name),
-    showError: this.showErrors,
+    showError: this.showError,
     onChange: this.handleChange
   });
 
+  showErrors = () => {
+    this.state.showErrors = true;
+  }
+
+  hideErrors = () => {
+    this.state.showErrors = false;
+  }
+
+  getformField(name) {
+    if(this.isFormInitialized) {
+      return toJS(this.state.form)[name];
+    }
+  }
+
+  getfieldValue(name) {
+    if(this.isFormInitialized) {
+      return toJS(this.state.form)[name].value;
+    }
+  }
+
+  set formSubmitted (value) {
+    this.state.submitted = true;
+  }
+  
   get isFormValid() {
     return this.state.isFormValid;
   }
@@ -91,8 +104,8 @@ export default class Form extends React.Component {
     return this.state.submitted;
   }
 
-  get showErrors() {
-    return this.state.showErrors;
+  get isFormInitialized () {
+    return this.state.isFormInitialized;
   }
 
   get formValues() {
@@ -113,12 +126,7 @@ export default class Form extends React.Component {
     return fields;
   }
 
-  getformField(name) {
-    if(this.state.form)
-      return toJS(this.state.form)[name];
-  }
-
-  getfieldValue(name) {
-    return toJS(this.state.form)[name].value;
+  get showError() {
+    return this.state.showErrors;
   }
 }

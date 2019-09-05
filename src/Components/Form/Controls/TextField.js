@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
-  
+
 export default class TextFieldControl extends React.Component{
 
     handleChange = value => {
@@ -10,12 +10,13 @@ export default class TextFieldControl extends React.Component{
     };
   
     render() {
-      const { label, name , error, required, disabled, type, readOnly, multiline, defaultValue, fullWidth} =  this.props;
+      const { label, showError , error, required, disabled, type, readOnly, multiline, defaultValue, fullWidth, isValid} =  this.props;
+
       return (
         <TextField
           name={name}
           required= {required}
-          error={!!error}
+          error={showError && !isValid}
           disabled={disabled}
           label={label}
           type={type}
@@ -23,12 +24,11 @@ export default class TextFieldControl extends React.Component{
           multiline={multiline}
           rows="4"
           defaultValue={defaultValue}
-          helperText={!!error && error}
+          helperText={showError && error}
           onChange={e => this.handleChange(e.target.value)}
           fullWidth= {fullWidth}
           margin="normal"
           variant="outlined"
-          
         />
       );
     }
@@ -45,6 +45,8 @@ TextFieldControl.propTypes = {
   readOnly: PropTypes.bool,
   multiline:PropTypes.bool, 
   fullWidth:PropTypes.bool, 
+  showError:PropTypes.bool, 
+  isValid:PropTypes.bool,
   onChange: PropTypes.func
 };
 
@@ -58,6 +60,7 @@ TextFieldControl.defaultProps = {
   readOnly: false,
   multiline: false,
   fullWidth: false,
+  showError: false,
   onChange() {}
 };
 
