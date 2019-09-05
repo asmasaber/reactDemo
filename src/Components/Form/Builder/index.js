@@ -27,11 +27,18 @@ export default class Form extends React.Component {
     }
   }
 
+  commenProps = name => ({
+    ...this.getformField(name),
+    showError: this.showError,
+    onChange: this.handleChange
+  });
+
   initializeForm = data => {
     this.state.setForm(data);
   };
 
   validateField = (name, value) => {
+    //get field ref. from state to update it's validation 
     const field = this.state.form[name];
 
     field.validators.some(validator => {
@@ -42,6 +49,19 @@ export default class Form extends React.Component {
         return true;
       }
     });
+  };
+
+  handleChange = (name, value) => {
+    this.state.form[name].value = value;
+    this.validateField(name, value);
+  };
+  
+  showErrors = () => {
+    this.state.showErrors = true;
+  };
+
+  hideErrors = () => {
+    this.state.showErrors = false;
   };
 
   validateForm() {
@@ -62,25 +82,6 @@ export default class Form extends React.Component {
     this.state.setForm(form);
   }
 
-  handleChange = (name, value) => {
-    this.state.form[name].value = value;
-    this.validateField(name, value);
-  };
-
-  commenProps = name => ({
-    ...this.getformField(name),
-    showError: this.showError,
-    onChange: this.handleChange
-  });
-
-  showErrors = () => {
-    this.state.showErrors = true;
-  };
-
-  hideErrors = () => {
-    this.state.showErrors = false;
-  };
-
   getformField(name) {
     if (this.isFormInitialized) {
       return toJS(this.state.form)[name];
@@ -93,8 +94,11 @@ export default class Form extends React.Component {
     }
   }
 
+  /**
+   * @param {boolean} value
+   */
   set formSubmitted(value) {
-    this.state.submitted = true;
+    this.state.submitted = value;
   }
 
   get isFormValid() {
