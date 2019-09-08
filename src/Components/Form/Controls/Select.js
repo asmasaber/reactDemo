@@ -1,48 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 
-import { observable } from "mobx";
-
 export default class SelectControl extends React.Component {
-  constructor(props) {
-    super(props);
-    this.inputLabel = observable.box(React.createRef());
-    this.labelWidth = observable.box();
-  }
-
-  componentDidMount() {
-    this.labelWidth = this.inputLabel.current.offsetWidth;
-  }
+  state = {
+    selectedValue: ""
+  };
 
   handleChange = value => {
     const { name } = this.props;
     this.props.onChange(name, value);
+    this.setState({ selectedValue: value });
   };
 
   render() {
-    const { name, helper, error, value, label, options, valueKey } = this.props;
-
+    const { name, helper, error, label, options, valueKey } = this.props;
     return (
       <FormControl variant="outlined" fullWidth error={!!error}>
-        <InputLabel ref={this.inputLabel} htmlFor="outlined-select">
-          {label}
-        </InputLabel>
+        <InputLabel htmlFor={`${name}-select`}>{label}</InputLabel>
         <Select
-          value={value}
+          value={this.state.selectedValue}
           onChange={event => this.handleChange(event.target.value)}
-          input={
-            <OutlinedInput
-              name={name}
-              id="outlined-select"
-              labelWidth={this.labelWidth}
-            />
-          }
+          inputProps={{
+            name: { name },
+            id: `${name}-select`
+          }}
         >
           <MenuItem value="">
             <em>None</em>

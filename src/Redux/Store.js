@@ -7,9 +7,10 @@ import rootSaga from "./Sagas";
 const sagaMiddleware = createSagaMiddleware();
 const logger = createLogger({ collapsed: true });
 
-sagaMiddleware.run(rootSaga);
 
 export const store = createStore(
   rootReducer,
   applyMiddleware(sagaMiddleware, logger)
 );
+
+sagaMiddleware.run(rootSaga);

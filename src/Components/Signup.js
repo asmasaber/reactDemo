@@ -68,45 +68,33 @@ class SignupForm extends Form {
     if (this.isFormInitialized) {
       return (
         <Container maxWidth="md">
-          <Grid container spacing={3}>
+          <Grid container xs={6} justify="center">
             <FormGroup row>
-              <Grid item xs={12}>
-                <TextField name="name" label="Name" fullWidth />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  name="password"
-                  label="Password"
-                  type="password"
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  name="repeatPassword"
-                  label="Confirm Password"
-                  type="password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Select
-                  name="country"
-                  label="Countries"
-                  options={countries}
-                  valueKey="id"
-                  isSearchable
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <AutoComplate
-                  name="ref"
-                  valueKey="id"
-                  placeholder="Interests"
-                  options={interests}
-                  isMulti
-                  isSearchable
-                />
-              </Grid>
-              <Grid item xs={12}>
+              <TextField name="name" label="Name" fullWidth />
+              <TextField name="password" label="Password" type="password" />
+              <TextField
+                name="repeatPassword"
+                label="Confirm Password"
+                type="password"
+              />
+
+              <Select
+                name="country"
+                label="Countries"
+                options={countries}
+                valueKey="id"
+                isSearchable
+              />
+              <AutoComplate
+                name="ref"
+                valueKey="id"
+                placeholder="Interests"
+                options={interests}
+                isMulti
+                isSearchable
+              />
+              <TextField name="bio" label="Bio." multiline />
+              <Grid xs={6}>
                 <CheckboxList
                   label="Interests"
                   name="interests"
@@ -114,7 +102,7 @@ class SignupForm extends Form {
                   itemKey="name"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid xs={6}>
                 <RedioButtons
                   label="Gender"
                   name="gender"
@@ -123,16 +111,11 @@ class SignupForm extends Form {
                   labelKey="value"
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField name="bio" label="Bio." multiline  />
-              </Grid>
-              <Grid item xs={12}>
+              <Grid xs={6}>
                 <Checkbox name="rememberMe" label="Remember Me" />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.submit}
-                >
+              </Grid>
+              <Grid xs={6}>              
+                <Button  variant="contained" color="primary" onClick={this.submit}>
                   Signup
                 </Button>
               </Grid>

@@ -21,7 +21,7 @@ export default class AutoComplateControl extends React.Component {
       error
     } = this.props;
     return (
-      <FormControl variant="outlined" fullWidth error={!!error}>
+      <FormControl fullWidth error={!!error}>
         <Select
           onChange={this.handleChange}
           options={options}

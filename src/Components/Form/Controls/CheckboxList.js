@@ -35,14 +35,13 @@ export default class CheckboxListControl extends React.Component {
     const { label, required, items, error, helper, itemKey } = this.props;
     return (
       <FormControl
-        variant="outlined"
         required={required}
         error={!!error}
         component="fieldset"
         className={classes.formControl}
       >
         <FormLabel component="legend">{label}</FormLabel>
-        <FormGroup row>
+        <FormGroup >
           {items.map(item => {
             return (
               <FormControlLabel

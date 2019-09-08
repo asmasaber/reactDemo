@@ -10,6 +10,7 @@ export default class TextFieldControl extends React.Component {
 
   render() {
     const {
+      id,
       label,
       showError,
       error,
@@ -25,6 +26,7 @@ export default class TextFieldControl extends React.Component {
 
     return (
       <TextField
+        id={id}
         name={name}
         required={required}
         error={showError && !isValid}
@@ -33,19 +35,18 @@ export default class TextFieldControl extends React.Component {
         type={type}
         readOnly={readOnly}
         multiline={multiline}
-        rows="4"
         defaultValue={defaultValue}
         helperText={showError && error}
         onChange={e => this.handleChange(e.target.value)}
         fullWidth={fullWidth}
-        margin="normal"
-        variant="outlined"
+        rows="4"
       />
     );
   }
 }
 
 TextFieldControl.propTypes = {
+  id: PropTypes.string,
   label: PropTypes.string,
   name: PropTypes.string,
   error: PropTypes.string,

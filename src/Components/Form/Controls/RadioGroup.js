@@ -8,34 +8,40 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 
 export default class RadioGroupControl extends React.Component {
+  state = {
+    selectedValue: 1
+  };
+
   handleChange = value => {
     const { name } = this.props;
     this.props.onChange(name, value);
+    this.setState({ selectedValue: value });
   };
 
   render() {
     const {
       helper,
       error,
-      value,
       label,
       options,
       valueKey,
       labelKey,
       required
     } = this.props;
+
     return (
       <FormControl component="fieldset" error={!!error} required={required}>
         <FormLabel component="legend">{label}</FormLabel>
         <RadioGroup
-          value={value}
+          value={this.state.selectedValue}
           onChange={event => this.handleChange(event.target.value)}
         >
           {options.map(option => {
             return (
               <FormControlLabel
                 key={option[valueKey]}
-                control={<Radio checked={option[valueKey] === value} />}
+                value={option[valueKey]}
+                control={<Radio checked={option[valueKey] === this.state.selectedValue}/>}
                 label={option[labelKey]}
               />
             );

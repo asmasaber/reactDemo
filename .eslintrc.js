@@ -32,7 +32,7 @@ module.exports = {
             "error",
             "double"
         ],
-        "no-console": "error",
+        // "no-console": "error",
         "indent": ["error", 2],
         "semi": [
             "error",
