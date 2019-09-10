@@ -167,5 +167,17 @@
     "root": [
       "./src"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asmasaber/reactDemo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asmasaber/reactDemo/issues"
+  },
+  "homepage": "https://github.com/asmasaber/reactDemo#readme"
 }

@@ -2,7 +2,8 @@ import apisauce from "apisauce";
 import { ApiConfig } from "./Config";
 
 const Api = apisauce.create({
-  baseURL: ApiConfig.baseURL,
+  // baseURL: ApiConfig.baseURL,
+  baseURL: ApiConfig.blogsBaseURL,
   headers: { Accept: "application/json; charset=UTF-8" }
 });
 
@@ -26,5 +27,8 @@ export default {
     getAll: () => Api.get("/users"),
     get: id => Api.get(`/users/${id}`),
     create: item => Api.post("/users", item)
+  },
+  blogs: {
+    get: data => Api.get("/blogs", data),
   }
 };
